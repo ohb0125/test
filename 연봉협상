@@ -1,0 +1,58 @@
+#define _CRT_SECURE_NO_WARNINGS 
+#include <stdio.h>
+
+// [구조체 정의]
+struct Employee {
+    char name[20];
+    int salary;      // 연봉 (만원 단위)
+    int score;       // 성과 점수
+};
+
+// [함수] 연봉 협상 (주소 전달)
+// 포인터(struct Employee* p)를 통해 원본 연봉을 직접 수정합니다.
+void negotiateSalary(struct Employee* p) {
+    printf("\n---  연봉 협상 진행 중... ---\n");
+
+    // 포인터 접근: 화살표(->) 사용 
+    if (p->score >= 90) {
+        p->salary += 1000; // 90점 이상이면 1000만원 인상
+        printf(">>  탁월한 성과입니다! 연봉이 1,000만원 인상됩니다.\n");
+    }
+    else if (p->score >= 70) {
+        p->salary += 500;  // 70점 이상이면 500만원 인상
+        printf(">>  고생하셨습니다. 연봉이 500만원 인상됩니다.\n");
+    }
+    else {
+        printf(">>  아쉽지만 연봉이 동결되었습니다. 분발하세요!\n");
+    }
+}
+
+int main() {
+    // [변수 선언] struct 키워드 필수
+    struct Employee emp;
+
+    printf("=== 인사 관리 시스템 ===\n");
+
+    // 1. 이름 입력 (문자열은 & 생략)
+    printf("직원 이름 입력: ");
+    scanf("%s", emp.name);
+
+    // 2. 연봉 입력 (정수는 & 필수)
+    printf("현재 연봉(만원) 입력: ");
+    scanf("%d", &emp.salary);
+
+    // 3. 성과 점수 입력
+    printf("이번 년도 성과 점수(0~100) 입력: ");
+    scanf("%d", &emp.score);
+
+    // 입력 확인
+    printf("\n[현재 상태] %s님 (연봉: %d만원, 점수: %d점)\n", emp.name, emp.salary, emp.score);
+
+    // 4. 협상 함수 호출 (주소값 & 전달) [cite: 960]
+    negotiateSalary(&emp);
+
+    // 최종 결과 확인
+    printf("\n>> [최종 계약] %s님의 확정 연봉: %d만원\n", emp.name, emp.salary);
+
+    return 0;
+}
